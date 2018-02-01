@@ -1,9 +1,9 @@
 %% State Space Model of sensorimotor adaptation
 %% Samuel David McDougle; Princeton, NJ; December 2017
 %% Email: sdmcdougle@gmail.com
-%% This code is used for simple simulations of the standard "state space" model of sensorimotor adaptation, and other variations
+%% This code is used for very simple simulations of the standard "state space" model of sensorimotor adaptation, and one variation
 %% References:  Smith et al., 2006; McDougle et al., 2016/2017
-%% Tweak the different parameters and have fun with it :)
+%% Try tweaking the different parameters
 
 clear;close all;clc;
 
@@ -16,7 +16,7 @@ clear;close all;clc;
 N = 420;
 %% rotation schedule (50 baseline trials, 320 rotation trials, 50 washout trials)
 rotation = [zeros(1,50) 45*ones(1,N-100) zeros(1,50)];
-%% initial params
+%% free parameters
 A_single = .999; % retention factor
 B_single = .035; % learning rate
 %% initialize
@@ -30,13 +30,14 @@ for n = 1:N
     %% update
     state_single(n+1) = A_single*state_single(n) - B_single*simError(n); % retained state + (learning rate*error)
 end
+% plot
 figure;
 plot(state_single,'linewidth',2);hold on;
-legend('State');
 plot([50 50],[-10 60],'--k');
 plot([370 370],[-10 60],'--k');
 plot([0 N],[0 0],'k');
 axis([0 N -10 60]);
+legend('State');
 box off;
 xlabel('Trial');
 ylabel('Simulated Reaching Direction');
@@ -78,11 +79,11 @@ figure;
 plot(fast_state,'b','linewidth',2);hold on;
 plot(slow_state,'r','linewidth',2);
 plot(observed_state,'k','linewidth',2);
-legend('Fast Process','Slow Process','Observed Output');
 plot([50 50],[-10 60],'--k');
 plot([370 370],[-10 60],'--k');
 plot([0 N],[0 0],'k');
 axis([0 N -10 60]);
+legend('Fast Process','Slow Process','Observed Output');
 box off;
 xlabel('Trial');
 ylabel('Simulated Reaching Direction/State');
