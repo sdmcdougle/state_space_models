@@ -58,7 +58,8 @@ for n = 1:N
     %% update fast process
     fast(n+1) = A_fast*fast(n) - B_fast*simError(n);    
     
-    %% update all slow process states (this gets a little tricky as it must utilize a circular Gaussian)
+    %% update all slow process states (must utilize a circular Gaussian)
+    %% (note: can also use a von Mises distribution here)
     % first, shift vector to make current fast state the center of the
     % Gaussian geeralization function
     idx = 1:360; % index states
@@ -74,7 +75,7 @@ for n = 1:N
     end    
 end
 
-%% PLOT
+%% PLOTS %%
 figure;
 colors = {[.55 .06 .61] [0 .45 .74] [.85 .33 .1] [.2 .6 .35]};
 markersize = 1;
