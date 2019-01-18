@@ -58,13 +58,12 @@ for n = 1:N
     %% update fast process
     fast(n+1) = A_fast*fast(n) - B_fast*simError(n);    
     
-    %% update all slow process states (must utilize a circular Gaussian)
-    %% (note: can also use a von Mises distribution here)
-    % first, shift vector to make current fast state the center of the
-    % Gaussian geeralization function
+    %% update all slow process states
+    %% (note: can also use a von Mises distribution here for more general applications)
+    % shift vector to make current fast state the center of the Gaussian generalization function
     idx = 1:360; % index states
     idx_hat = circshift(idx',180-center(n)); % shift the vector into place
-    % now, update ALL slow process states using a quick for loop
+    % now update ALL slow process states 
     for j = 1:360
         slow_tiled(idx_hat(j),n+1) = A_slow*slow_tiled(idx_hat(j),n) - (height*exp(-1*(((j-180)^2)/(2*width^2))))*simError(n); % Gaussian update
     end    
